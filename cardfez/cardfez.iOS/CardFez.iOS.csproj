@@ -93,6 +93,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\AppIconStock.appiconset\Contents.json" />
   </ItemGroup>
 </Project>
