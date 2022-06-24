@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CardFez.ErrorPage">
+    
+        <StackLayout>
+            <Frame BackgroundColor="DarkRed" Padding="15" CornerRadius="0" >
+                <Label Text="Welcome to  My Fezcard Viewer!" HorizontalTextAlignment="Center" TextColor="White" FontSize="15" />
+            </Frame>
+
+            <Frame BackgroundColor="LightGray"  CornerRadius="0"  VerticalOptions="CenterAndExpand" >
+               
+                <Label x:Name="Infortemple" HorizontalTextAlignment="Center" TextColor="Black" FontSize="20"  VerticalOptions="FillAndExpand"/>
+           
+            </Frame>
+           
+        </StackLayout>
+    
+</ContentPage>
+

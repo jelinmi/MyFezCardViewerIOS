@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="CardFez.ValidateMember">
+
+   <StackLayout Margin="25" VerticalOptions="Center">
+        <Image x:Name="fileImage"  HeightRequest="60" WidthRequest="70" 
+               Source="fez.png"   />
+        <Frame BackgroundColor="DarkRed" Padding="15" CornerRadius="0"  >
+                
+                <Label Text="Welcome to My FezCard Viewer!" HorizontalTextAlignment="Center" TextColor="White" FontSize="15" FontAttributes="Bold" />
+                
+        </Frame>
+
+        <StackLayout Padding="0,15,0,0">
+           
+            <Label Text="Shrine ID" FontSize="Medium" FontAttributes="Bold"  />
+            <Entry x:Name="entryShrineId" Placeholder="Type here..." Keyboard="Numeric" ></Entry>
+
+         
+            <Label Text="Last Name" FontSize="Medium" FontAttributes="Bold" />
+            <Entry x:Name="entryLastName" Placeholder="Type here..." ></Entry>
+            <Label Text="Temple" FontSize="Medium" FontAttributes="Bold" />
+      
+            <SearchBar x:Name="searchBar"
+                       Placeholder="Search for your temple"
+                       PlaceholderColor="Gray"
+                       TextChanged="OnTextChanged" 
+                       TranslationX="0"
+                       HorizontalOptions="FillAndExpand"
+                       HeightRequest="60"
+                       Margin="-20,0,0,0"
+              />
+
+      
+        <ListView x:Name="searchResults"  ItemSelected="OnPickerSelectedIndexChanged"  RefreshControlColor="Gray"   SeparatorColor="DarkRed" SelectionMode="Single"  >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell >
+
+                            <ViewCell.View>
+                                <StackLayout>
+                                    <Label Text="{Binding TempleName}"  FontSize="Medium" FontAttributes="Bold"/>
+                                   
+                                </StackLayout>
+                            </ViewCell.View>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+        </StackLayout>
+        <Button x:Name="btnLogin" Text="Register" Clicked="btnLogin_Clicked" BackgroundColor="DarkRed" TextColor="White" FontAttributes="Bold"></Button>
+        <Label Text="Questions? Contact Webfezfeedback@shrinenet.org" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12" FontAttributes="Bold" />
+    </StackLayout>
+</ContentPage>
+

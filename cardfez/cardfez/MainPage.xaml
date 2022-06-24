@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" 
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+            
+            xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+            
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+            
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           
+             xmlns:controls="clr-namespace:CardFez"
+          
+             BarBackgroundColor="DarkRed"
+           
+             BarTextColor="White"
+           
+             mc:Ignorable="d"
+            
+            
+             x:Class="CardFez.MainPage">
+    
+    <ContentPage Title="Card" >
+
+       <Grid HorizontalOptions="Center">
+   
+      <WebView x:Name="webview3"
+      VerticalOptions ="FillAndExpand"
+
+      HorizontalOptions = "FillAndExpand">
+
+      </WebView>
+
+    
+    </Grid>
+        
+    </ContentPage>
+
+    
+    <ContentPage Title="QR Code" >
+      <Grid>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+           
+            <Frame  HorizontalOptions="FillAndExpand">
+                <Label x:Name="NobleInformationNoble"   
+                       Text=" hi" 
+                       FontSize="Large"
+                       FontAttributes="Bold" 
+                       VerticalTextAlignment="Center"
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="CenterAndExpand"
+                       
+                />
+
+            </Frame>
+            <Frame HorizontalOptions="FillAndExpand">
+            <zxing:ZXingBarcodeImageView BarcodeFormat="QR_CODE"
+                                         x:Name="barcodeImage2"
+                                         BarcodeValue="123456789012"
+                                         WidthRequest="200"
+                                         HeightRequest="200"
+                                         HorizontalOptions="FillAndExpand">
+
+            </zxing:ZXingBarcodeImageView>
+
+            </Frame>
+          
+        </StackLayout>
+      </Grid>
+    </ContentPage>
+        
+</TabbedPage>
+
