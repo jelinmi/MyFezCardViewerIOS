@@ -9,6 +9,7 @@ using Foundation;
 using UIKit;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
@@ -18,7 +19,7 @@ namespace CardFez
     {
         protected static RestClient _restClient = new RestClient();
 
-        public ContactDetails contact { get; set; }
+        
 
         int ShrineNumber = 0;
 
@@ -33,7 +34,7 @@ namespace CardFez
 
             };
 
-
+            Xamarin.Forms.Application.Current.On<iOS>().SetEnableAccessibilityScalingForNamedFontSizes(false);
             InitializeComponent();
 
             var current = Connectivity.NetworkAccess;
@@ -51,6 +52,8 @@ namespace CardFez
                 case NetworkAccess.Unknown:
 
                     // Internet access is unknown
+                    MessagingCenter.Send(this, "SetLandscapeModeOn");
+                    
                     OnAppearing();
                     break;
 
@@ -64,8 +67,9 @@ namespace CardFez
                 // Active Wi-Fi connection.
             }
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+            
 
-        
+
 
         }
         async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
@@ -99,7 +103,7 @@ namespace CardFez
 
     
 
-    async void gethqid()
+        public async void gethqid()
         {
 
             var x = await Xamarin.Essentials.SecureStorage.GetAsync("HQID");
@@ -111,30 +115,42 @@ namespace CardFez
         
         protected override async void OnAppearing()
         {
+            base.OnAppearing();
             MessagingCenter.Send(this, "SetLandscapeModeOn");
             await GetInformationNoble();
-        }
+      
+            UIDevice.CurrentDevice.SetValueForKey(new NSNumber((int)UIInterfaceOrientation.LandscapeLeft), new NSString("orientation"));
+        
+    }
 
         
        public async Task GetInformationNoble()
         {
-            
-            
             var nameValue = ShrineNumber;
+           
             var response = await _restClient.GetAsync<Root>("https://webfez.shrinenet.org/PublicAPI/v1/Nobles/" +
                    nameValue +
                     "/MyFezCard");
-            var response1 = await _restClient.GetAsync<Root2>("https://webfez.shrinenet.org/PublicAPI/v1/Nobles/" +
-                 nameValue);
-            var response2 = await _restClient.GetAsync<Root3>("https://webfez.shrinenet.org/PublicAPI/v1/Nobles/" + nameValue + "/NobleTempleRecords");
-            var nobletemplrecinfo = response2.content;
+           
 
-            var TplNumber = nobletemplrecinfo[0].TplNum;
+            var TplNumber = response.content.tplNum;
 
 
             if (response.statusCode == 0)
             {
-                
+                var d = "";
+                if (response.content.assocTemples.Contains("Shriners"))
+                {
+                    d = "yes";
+                }
+                else
+                {
+                    d = "no";
+                    MainListView.IsVisible = false;
+                 
+                    NobleInformationNoble.FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label));
+
+                }
                 var card2 = response.content.shrineCard;
                 
                 webview3.Source = new HtmlWebViewSource
@@ -146,12 +162,16 @@ namespace CardFez
                 var myDisplay = DeviceDisplay.MainDisplayInfo;
                 webview3.HeightRequest = myDisplay.Height;
                 webview3.WidthRequest = myDisplay.Width;
+                var DuesYear = response.content.duesYear;
                
-                var maininfo = response1.content;
-                var fullname = (maininfo.firstName + " " + maininfo.middleName + " " + maininfo.lastName).ToString();
-                var Templename = nobletemplrecinfo[0].TempleName;
+                var fullname = (response.content.nameLine1 + " " + response.content.nameLine2).ToString();
+                var Templename = response.content.templeName;
+                var assoc = response.content.assocTemples;
+                string[] namesArray = assoc.Split(',').ToArray();
+                List<string> list = new List<string>(namesArray);
+                MainListView.ItemsSource = list;
 
-                string fixedText2 = (fullname + Environment.NewLine + "Shrine ID: " + ShrineNumber + Environment.NewLine + Templename + Environment.NewLine + "Current Dues Year:  2022");
+                string fixedText2 = (fullname + Environment.NewLine + "Shrine ID: " + ShrineNumber + Environment.NewLine +"Home Temple: "+ Templename + Environment.NewLine + "Current Dues Year: "+ DuesYear);
 
                 NobleInformationNoble.Text = fixedText2;
 
@@ -160,14 +180,15 @@ namespace CardFez
                     Height = 200,
                     Width = 200
                 };
-                this.barcodeImage2.BarcodeValue = response.content.qrcode + nameValue;
+                this.barcodeImage2.BarcodeValue = response.content.qrcode;
 
 
             }
             else
             {
-
-                App.Current.MainPage = new ErrorPage(TplNumber);
+                var tpl = await Xamarin.Essentials.SecureStorage.GetAsync("TplNum");
+                ShrineNumber = Int32.Parse(tpl);
+                App.Current.MainPage = new ErrorPage(tpl);
 
             }
 
@@ -178,103 +199,44 @@ namespace CardFez
 
     }
 
-   
+    
 
-        public class Root2
-        {
-            public Content2 content { get; set; }
-            public int statusCode { get; set; }
-            public string statusDetail { get; set; }
-        }
-
-        public class Content2
-        {
-            public string hqid { get; set; }
-            public string lastName { get; set; }
-            public string lastName2 { get; set; }
-            public string firstName { get; set; }
-            public string middleName { get; set; }
-            public string prefix { get; set; }
-            public string suffix { get; set; }
-            public string nickName { get; set; }
-            public string dob { get; set; }
-            public string birthplace { get; set; }
-            public string spouse { get; set; }
-            public string spousePrefix { get; set; }
-            public string occupationTypeID { get; set; }
-            public string isNoble { get; set; }
-            public string isPCM { get; set; }
-            public string isPCLM { get; set; }
-            public string isDirectory { get; set; }
-            public string isLegalSpouse { get; set; }
-            public string hqnonSolicitation { get; set; }
-            public string notes { get; set; }
-            public string changeDate { get; set; }
-            public string userID { get; set; }
-            public string hasWebFezLogin { get; set; }
-            public string canAccessLibrary { get; set; }
-        }
-
-        public class Content3
-        {
-            public string MbrTplRecID { get; set; }
-            public string HQID { get; set; }
-            public string TplNum { get; set; }
-            public string TempleName { get; set; }
-            public string MemNum { get; set; }
-            public string StatusID { get; set; }
-            public string StatusTitle { get; set; }
-            public string StatusTypeT { get; set; }
-            public string StatusDate { get; set; }
-            public string DuesClassID { get; set; }
-            public string DuesTitle { get; set; }
-            public string DuesTotal { get; set; }
-            public string DuesArrears { get; set; }
-            public string BillPayWebsite { get; set; }
-            public string Website { get; set; }
-            public string IsNPD { get; set; }
-        }
-
-        public class Root3
-        {
-            public List<Content3> content { get; set; }
-            public int statusCode { get; set; }
-            public string statusDetail { get; set; }
-        }
-        public class Content
-        {
-        public string cardType { get; set; }
-        public string duesYear { get; set; }
-        public string tplNum { get; set; }
-        public string templeName { get; set; }
-        public string mbrTplRecID { get; set; }
-        public string hqid { get; set; }
-        public string isLegacy { get; set; }
-        public string nobleName { get; set; }
-        public string nameLine1 { get; set; }
-        public string nameLine2 { get; set; }
-        public string memNum { get; set; }
-        public string qrcode { get; set; }
-        public string shrineCard { get; set; }
-    }
-
+    
+        
+        
         public class Root
         {
             public Content content { get; set; }
             public int statusCode { get; set; }
             public string statusDetail { get; set; }
         }
-
-
-
-
-        public class ContactDetails
+        public class Content
         {
-            public string HQID { get; set; }
-
+            public string cardType { get; set; }
+            public string duesYear { get; set; }
+            public string tplNum { get; set; }
+            public string statusID { get; set; }
+            public string statusName { get; set; }
+            public string templeName { get; set; }
+            public string mbrTplRecID { get; set; }
+            public string hqid { get; set; }
+            public string isLegacy { get; set; }
+            public string nobleName { get; set; }
+            public string nameLine1 { get; set; }
+            public string nameLine2 { get; set; }
+            public string memNum { get; set; }
+            public string qrcode { get; set; }
+            public string assocTemples { get; set; }
+            public string shrineCard { get; set; }
         }
 
-    
+
+
+
+
+
+
+
 }
 
 

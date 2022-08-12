@@ -2,9 +2,12 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="CardFez.ValidateMember">
+    x:Class="CardFez.ValidateMember"
+    BackgroundColor="White"
+    NavigationPage.HasNavigationBar="false">
 
-   <StackLayout Margin="25" VerticalOptions="Center">
+   <StackLayout Margin="40"
+                VerticalOptions="Center" >
         <Image x:Name="fileImage"  HeightRequest="60" WidthRequest="70" 
                Source="fez.png"   />
         <Frame BackgroundColor="DarkRed" Padding="15" CornerRadius="0"  >
@@ -13,35 +16,67 @@
                 
         </Frame>
 
-        <StackLayout Padding="0,15,0,0">
+        <StackLayout Padding="0,15,0,0" BackgroundColor="White">
            
-            <Label Text="Shrine ID" FontSize="Medium" FontAttributes="Bold"  />
-            <Entry x:Name="entryShrineId" Placeholder="Type here..." Keyboard="Numeric" ></Entry>
+            
+            <Entry x:Name="entryShrineId"
+                   Placeholder="Shrine ID..."
+                   TextColor="Black"
+                   PlaceholderColor="LightGray"
+                   Keyboard="Numeric"
+                   BackgroundColor="White"
+                   IsSpellCheckEnabled="False"
+                   IsTextPredictionEnabled="False">
+
+            </Entry>
 
          
-            <Label Text="Last Name" FontSize="Medium" FontAttributes="Bold" />
-            <Entry x:Name="entryLastName" Placeholder="Type here..." ></Entry>
-            <Label Text="Temple" FontSize="Medium" FontAttributes="Bold" />
-      
+
+            <Entry x:Name="entryLastName"
+                   Placeholder="Last Name..."
+                   PlaceholderColor="LightGray"
+                   TextColor="Black"
+                   BackgroundColor="White"
+                   IsSpellCheckEnabled="False"
+                   IsTextPredictionEnabled="False">
+
+            </Entry>
+          
             <SearchBar x:Name="searchBar"
-                       Placeholder="Search for your temple"
+                       Placeholder="Select your home temple"
                        PlaceholderColor="Gray"
-                       TextChanged="OnTextChanged" 
+                       TextChanged="OnTextChanged"
+                       TextColor="Black"
                        TranslationX="0"
                        HorizontalOptions="FillAndExpand"
                        HeightRequest="60"
                        Margin="-20,0,0,0"
-              />
+                       BackgroundColor="White"
+                       IsSpellCheckEnabled="False">
 
-      
-        <ListView x:Name="searchResults"  ItemSelected="OnPickerSelectedIndexChanged"  RefreshControlColor="Gray"   SeparatorColor="DarkRed" SelectionMode="Single"  >
+                       
+                   <SearchBar.Keyboard>
+                    <Keyboard x:FactoryMethod="Create">
+                        <x:Arguments>
+                            <KeyboardFlags>None</KeyboardFlags>
+                        </x:Arguments>
+                    </Keyboard>
+                </SearchBar.Keyboard>
+            </SearchBar>
+
+      <ScrollView>
+        <ListView x:Name="searchResults"
+                 
+                  ItemSelected="OnPickerSelectedIndexChanged"
+                  BackgroundColor="Transparent"
+                  SeparatorColor="DarkRed" SelectionMode="Single" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell >
+                        <ViewCell Tapped="ItemTapped">
 
-                            <ViewCell.View>
-                                <StackLayout>
-                                    <Label Text="{Binding TempleName}"  FontSize="Medium" FontAttributes="Bold"/>
+                            <ViewCell.View >
+                                <StackLayout BackgroundColor="Transparent"  >
+                                    <Label Text="{Binding TempleName}"  FontSize="Medium"  TextColor="Black" FontAttributes="Bold" />
                                    
                                 </StackLayout>
                             </ViewCell.View>
@@ -50,10 +85,11 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
+          </ScrollView>
 
         </StackLayout>
-        <Button x:Name="btnLogin" Text="Register" Clicked="btnLogin_Clicked" BackgroundColor="DarkRed" TextColor="White" FontAttributes="Bold"></Button>
+         <Button x:Name="btnLoginFake" Text="Register" Clicked="btnLogin_Clicked" BackgroundColor="Gray" TextColor="White" FontAttributes="Bold"></Button>
+        <Button x:Name="btnLogin" IsVisible="false" Text="Register" Clicked="btnLogin_Clicked" BackgroundColor="DarkRed" TextColor="White" FontAttributes="Bold"></Button>
         <Label Text="Questions? Contact Webfezfeedback@shrinenet.org" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12" FontAttributes="Bold" />
     </StackLayout>
 </ContentPage>

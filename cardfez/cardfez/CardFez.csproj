@@ -22,6 +22,7 @@
     <None Remove="Newtonsoft.Json" />
     <None Remove="Xamarin.iOS" />
     <None Remove="ZXing.Net.Mobile" />
+    <None Remove="Xam.Plugins.Forms.DeviceOrientation" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.iOS">

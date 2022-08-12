@@ -15,14 +15,14 @@
            
              BarTextColor="White"
            
-             mc:Ignorable="d"
-            
-            
-             x:Class="CardFez.MainPage">
+             mc:Ignorable="d"   
+            NavigationPage.HasNavigationBar="false"
+            BackgroundColor="white"
+            x:Class="CardFez.MainPage">
     
-    <ContentPage Title="Card" >
+    <ContentPage Title="Card">
 
-       <Grid HorizontalOptions="Center">
+       <Grid HorizontalOptions="Center" >
    
       <WebView x:Name="webview3"
       VerticalOptions ="FillAndExpand"
@@ -37,35 +37,60 @@
     </ContentPage>
 
     
-    <ContentPage Title="QR Code" >
-      <Grid>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-           
-            <Frame  HorizontalOptions="FillAndExpand">
-                <Label x:Name="NobleInformationNoble"   
-                       Text=" hi" 
-                       FontSize="Large"
-                       FontAttributes="Bold" 
+    <ContentPage Title="QR Code"  BackgroundColor="White">
+      <Grid VerticalOptions="CenterAndExpand" >
+            <Grid.ColumnDefinitions>
+
+               
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+         <Label  Grid.Column="0"  VerticalOptions="CenterAndExpand"  x:Name="NobleInformationNoble"  
+                       
+                       Text=" hi"
+                       FontSize="Medium"
+                       FontAttributes="Bold"
                        VerticalTextAlignment="Center"
                        HorizontalTextAlignment="Center"
-                       HorizontalOptions="CenterAndExpand"
+                       TextColor="Black"
                        
-                />
+                     
+                       
+                     />
+                <ListView   Grid.Column="0"  Grid.Row="1" VerticalOptions="CenterAndExpand"  x:Name="MainListView"
+                           HasUnevenRows="True" SeparatorVisibility="None" BackgroundColor="White"
+                           HorizontalOptions="Center" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                            <StackLayout Orientation="Vertical"  HorizontalOptions="Center" >
+                                    <Label  TextColor="black" Text="{Binding }" FontAttributes="Bold" FontSize="Medium" />
+                                   
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
-            </Frame>
-            <Frame HorizontalOptions="FillAndExpand">
-            <zxing:ZXingBarcodeImageView BarcodeFormat="QR_CODE"
-                                         x:Name="barcodeImage2"
-                                         BarcodeValue="123456789012"
-                                         WidthRequest="200"
-                                         HeightRequest="200"
-                                         HorizontalOptions="FillAndExpand">
+           
+           
 
-            </zxing:ZXingBarcodeImageView>
+                <zxing:ZXingBarcodeImageView BarcodeFormat="QR_CODE"  
+                                             Grid.Column="1"
+                                             Grid.RowSpan="2"
+                                         
+                                             x:Name="barcodeImage2"
+                                             VerticalOptions="FillAndExpand"
+                                             BarcodeValue="123456789012"
+                                             WidthRequest="200"
+                                             HeightRequest="200"
+                                             HorizontalOptions="FillAndExpand"   >
 
-            </Frame>
-          
-        </StackLayout>
+                </zxing:ZXingBarcodeImageView>
+           
       </Grid>
     </ContentPage>
         

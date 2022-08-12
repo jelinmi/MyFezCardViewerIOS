@@ -32,7 +32,18 @@ namespace CardFez
             await DisplayAlert("No connectivity ", "Ooops, it looks like you do not have an internet connection. Please check that you have mobile or Wi-Fi service and that airplane mode is not active.", "OK");
         }
         public async void btnLogin_Clicked(object sender, EventArgs e)
+            
         {
+            if (entryShrineId.Text == "" || entryShrineId.Text== null)
+            {
+                await DisplayAlert("", "Please Enter Your Shrine ID", "OK");
+                return;
+            }
+            if (entryLastName.Text == "" || entryLastName.Text == null)
+            {
+                await DisplayAlert("", "Please Enter Your Last Name", "OK");
+                return;
+            }
             if (entryShrineId.Text.Length > 0 && entryLastName.Text.Length > 0 && Tpl > 0)
             {
                 UserInformation userinformation = new UserInformation
@@ -55,13 +66,15 @@ namespace CardFez
                     Preferences.Set("IsLoggedIn","true");
                     
                     await Xamarin.Essentials.SecureStorage.SetAsync("HQID", entryShrineId.Text);
+                    await Xamarin.Essentials.SecureStorage.SetAsync("TplNum", Tpl.ToString());
                     App.Current.MainPage = new MainPage(userinformation.hqid);
+
 
                 }
                 else
                 {
                     await DisplayAlert("", "Registration Failed!", "OK");
-
+                    return;
                 }
             }
 
@@ -71,17 +84,31 @@ namespace CardFez
             else
             {
                 await DisplayAlert("", "Registration Failed!", "OK");
+                return;
             }
         }
         ViewCell lastCell;
+        public void ItemTapped(object sender, System.EventArgs e)
+        {
+            if (lastCell != null)
+                lastCell.View.BackgroundColor = Color.Transparent;
+            var viewCell = (ViewCell)sender;
+            if (viewCell.View != null)
+            {
+                viewCell.View.BackgroundColor = Color.LightGray;
+                lastCell = viewCell;
+            }
+        }
         void OnPickerSelectedIndexChanged(object sender, ItemTappedEventArgs e)
         {
-           
+            Unfocus();
+            searchBar.Unfocus();
+            btnLogin.IsVisible = true;
+            btnLoginFake.IsVisible = false;
             var id = (Temple)searchResults.SelectedItem;
             var tp = id.TplNum;
             Tpl = Convert.ToInt32(tp);
-
-            // searchResults.IsVisible = false;
+            searchBar.Text=id.TempleName;
 
         }
         List<Temple> ListOfTemples = new List<Temple>();
@@ -172,12 +199,12 @@ namespace CardFez
 
             var keyword = searchBar.Text;
 
-            searchResults.ItemsSource = ListOfTemples.Where(n => n.TempleName.ToLower().Contains(keyword.ToLower()));
+            searchResults.ItemsSource = ListOfTemples.Where(n => n.TempleName.ToLower().StartsWith(keyword.ToLower()));
+            
 
 
         }
-
-
+       
 
         public class Temple
         {

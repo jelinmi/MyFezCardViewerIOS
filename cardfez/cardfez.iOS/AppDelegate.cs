@@ -25,21 +25,36 @@ namespace CardFez.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             ZXing.Net.Mobile.Forms.iOS.Platform.Init();
-            LoadApplication(new App());
+            
             UITabBar.Appearance.TintColor = UIColor.White;
             UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes() { Font = UIFont.FromName("Arial", 29) });
-            Xamarin.Forms.MessagingCenter.Subscribe<MainPage>(this, "SetLandscapeModeOn", sender =>
-            {
-                UIDevice.CurrentDevice.SetValueForKey(new NSNumber((int)UIInterfaceOrientation.LandscapeLeft), new NSString("orientation"));
-            });
-            Xamarin.Forms.MessagingCenter.Subscribe<MainPage>(this, "SetLandscapeModeOff", sender =>
-            {
-                UIDevice.CurrentDevice.SetValueForKey(new NSNumber((int)UIInterfaceOrientation.Portrait), new NSString("orientation"));
-            });
-
+            UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
+            LoadApplication(new App());
+            UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
             return base.FinishedLaunching(app, options);
         }
+        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, UIWindow forWindow)
+        {
+            if (Xamarin.Forms.Application.Current == null || Xamarin.Forms.Application.Current.MainPage == null)
+            {
+                return UIInterfaceOrientationMask.Portrait;
+            }
+
+            var mainPage = Xamarin.Forms.Application.Current.MainPage;
+
+            if (mainPage is MainPage ||
+               (mainPage is NavigationPage && ((NavigationPage)mainPage).CurrentPage is MainPage) ||
+               (mainPage.Navigation != null && mainPage.Navigation.ModalStack.LastOrDefault() is MainPage))
+            {
+                return UIInterfaceOrientationMask.Landscape;
+            }
+
+            return UIInterfaceOrientationMask.Portrait;
+        }
         
+
+
+
     }
 }
 

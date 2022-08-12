@@ -27,7 +27,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignProvision>Automatic</CodesignProvision>
+    <CodesignProvision>iOS Team Provisioning Profile: *</CodesignProvision>
     <CodesignKey>Apple Development: jenifer aponte (AAMB3FR85A)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchEnableSGenConc>false</MtouchEnableSGenConc>
@@ -40,7 +40,7 @@
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <MtouchArch>ARM64</MtouchArch>
+    <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <CodesignKey>Apple Development: jenifer aponte (AAMB3FR85A)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
@@ -67,6 +67,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Info.plist" />
+    <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -93,6 +94,28 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Assets.xcassets\AppIconStock.appiconset\Contents.json" />
+    <ImageAsset Include="Asset.xcassets\Contents.json" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %282%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %283%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %286%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %287%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %288%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %289%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %2812%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %2813%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %2814%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %2815%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %2816%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %2817%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\fez %2820%29.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\1024x1024 2.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\new120.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\new180.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\new76.png" />
+    <ImageAsset Include="Asset.xcassets\AppIcon.appiconset\new152.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\fez.png" />
   </ItemGroup>
 </Project>
