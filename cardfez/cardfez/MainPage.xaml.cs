@@ -127,7 +127,7 @@ namespace CardFez
        public async Task GetInformationNoble()
         {
             var nameValue = ShrineNumber;
-           
+
             var response = await _restClient.GetAsync<Root>("https://webfez.shrinenet.org/PublicAPI/v1/Nobles/" +
                    nameValue +
                     "/MyFezCard");

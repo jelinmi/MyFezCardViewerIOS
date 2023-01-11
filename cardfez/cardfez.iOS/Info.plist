@@ -33,7 +33,7 @@
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>CFBundleShortVersionString</key>
-	<string>27</string>
+	<string>33</string>
 	<key>CFBundleDisplayName</key>
 	<string>My FezCard Viewer</string>
 </dict>
